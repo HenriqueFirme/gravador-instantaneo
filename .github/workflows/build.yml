@@ -19,16 +19,15 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Instalar e Configurar Gradle
+    - name: Instalar Gradle 8.4
       uses: gradle/actions/setup-gradle@v3
-
-    - name: Dar permissao de execucao ao gradlew
-      run: chmod +x gradlew
+      with:
+        gradle-version: '8.4'
 
     - name: Compilar APK
-      run: ./gradlew assembleDebug --no-daemon
+      run: gradle assembleDebug --no-daemon
 
-    - name: Disponibilizar APK
+    - name: Salvar Instalador APK
       uses: actions/upload-artifact@v4
       with:
         name: GravadorInstantaneo-Instalador
