@@ -27,8 +27,13 @@ jobs:
     - name: Compilar APK
       run: gradle assembleDebug --no-daemon
 
+    - name: Gerar Chave e Assinar APK com V2
+      run: |
+        keytool -genkeypair -v -keystore release.jks -alias instantkey -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=Gravador, OU=Dev, O=Personal, L=BR, S=BR, C=BR"
+        $ANDROID_HOME/build-tools/34.0.0/apksigner sign --ks release.jks --ks-pass pass:123456 --ks-key-alias instantkey --key-pass pass:123456 --out app/build/outputs/apk/debug/GravadorInstantaneo.apk app/build/outputs/apk/debug/app-debug.apk
+
     - name: Salvar Instalador APK
       uses: actions/upload-artifact@v4
       with:
         name: GravadorInstantaneo-Instalador
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/GravadorInstantaneo.apk
