@@ -19,13 +19,16 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Configurar Gradle
+    - name: Instalar e Configurar Gradle
       uses: gradle/actions/setup-gradle@v3
 
-    - name: Compilar APK Debug
-      run: ./gradlew assembleDebug --stacktrace
+    - name: Dar permissao de execucao ao gradlew
+      run: chmod +x gradlew
 
-    - name: Salvar Instalador APK
+    - name: Compilar APK
+      run: ./gradlew assembleDebug --no-daemon
+
+    - name: Disponibilizar APK
       uses: actions/upload-artifact@v4
       with:
         name: GravadorInstantaneo-Instalador
